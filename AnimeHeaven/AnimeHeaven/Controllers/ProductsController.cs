@@ -54,6 +54,24 @@
 
         }
 
+        public IActionResult All()
+        {
+            var products = this.data
+                .Products
+                .Select(p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    AnimeOrigin = p.AnimeOrigin,
+                    Price = p.Price,
+                    Category = p.Category.Name,
+                    ImageUrl = p.ImageUrl
+                })
+                .ToList();
+
+            return View(products);
+        }
+
         private IEnumerable<ProductCatergoryViewModel> GetProductCategories()
             => this.data
                 .Categories

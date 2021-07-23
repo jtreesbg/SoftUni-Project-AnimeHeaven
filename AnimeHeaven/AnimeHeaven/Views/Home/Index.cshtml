@@ -1,8 +1,103 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div style="background-image: url(https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-japanese-simple-cherry-blossom-theme-pink-background-illustration-image_190376.jpg);">
+    <div class="homeLogo">
+        <div>
+            <p>Welcome to Anime Heaven</p>
+        </div>
+    </div>
+</div>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="newProducts">
+        <span class="spanproba">Newest products</span>
+        <table class="center">
+            <tr>
+                @foreach (var product in Model)
+                {
+                    <td>
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="@product.ImageUrl" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text nameDescription">@product.Name - @product.AnimeOrigin</p>
+                                <p class="card-text nameDescription">@product.Category</p>
+                                <p class="card-text priceTag">Price: @product.Price €</p>
+                            </div>
+                        </div>
+                    </td>
+                }
+            </tr>
+        </table>
+</div>
+
+    <div class="newProducts">
+        <span class="spanproba">Suggested products</span>
+        <table class="center">
+            <tr>
+                <td>
+                    <div class="wrapper">
+                        <div class="proba">
+                            <picture>
+                                <img src="/pictures/sakura.jpg" alt="product">
+                            </picture>
+                        </div>
+                        <div class="nameDescription">Sakura Haruno - Naruto Figure</div>
+                        <div class="priceTag">Price: 20.99</div>
+                        <div class="available">Available</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="wrapper">
+                        <div class="proba">
+                            <picture>
+                                <img src="/pictures/tsunade.jpg" alt="product">
+                            </picture>
+                        </div>
+                        <div class="nameDescription">Sakura Haruno - Naruto Figure</div>
+                        <div class="priceTag">Price: 20.99</div>
+                        <div class="available">Available</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="wrapper">
+                        <div class="proba">
+                            <picture>
+                                <img src="/pictures/jabami.jpg" alt="product">
+                            </picture>
+                        </div>
+                        <div class="nameDescription">Sakura Haruno - Naruto Figure</div>
+                        <div class="priceTag">Price: 20.99</div>
+                        <div class="available">Available</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="wrapper">
+                        <div class="proba">
+                            <picture>
+                                <img src="/pictures/dazai.jpeg" alt="product">
+                            </picture>
+                        </div>
+                        <div class="nameDescription">Sakura Haruno - Naruto Figure</div>
+                        <div class="priceTag">Price: 20.99</div>
+                        <div class="available">Available</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="wrapper">
+                        <div class="proba">
+                            <picture>
+                                <img src="/pictures/paimon.jpg" alt="product">
+                            </picture>
+                        </div>
+                        <div class="nameDescription">Sakura Haruno - Naruto Figure</div>
+                        <div class="priceTag">Price: 20.99</div>
+                        <div class="available">Available</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
