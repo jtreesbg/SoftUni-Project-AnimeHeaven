@@ -1,12 +1,8 @@
 ﻿namespace WebApplication1.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
-    using System.Threading.Tasks;
+    using System.Diagnostics;
+    using Microsoft.AspNetCore.Mvc;
     using AnimeHeaven.Models;
     using AnimeHeaven.Data;
     using AnimeHeaven.Models.Products;

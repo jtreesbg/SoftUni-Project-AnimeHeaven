@@ -2,10 +2,10 @@
 {
     using System.Linq;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Mvc;
     using AnimeHeaven.Data;
     using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models.Products;
-    using Microsoft.AspNetCore.Mvc;
 
     public class ProductsController : Controller
     {
@@ -54,10 +54,30 @@
 
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery] ProductsSearchQueryModel query)
         {
-            var products = this.data
-                .Products
+            var productsQuery = this.data.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.Category))
+            {
+                productsQuery = productsQuery.Where(p => p.Category.Name == query.Category);
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                productsQuery = productsQuery.Where(p =>
+                    p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                    p.AnimeOrigin.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            productsQuery = query.Sorting switch
+            {
+                ProductsSorting.Anime => productsQuery.OrderBy(p => p.AnimeOrigin),
+                ProductsSorting.Year => productsQuery.OrderBy(p => p.Year),
+                ProductsSorting.DateCreated or _ => productsQuery.OrderByDescending(p => p.Id)
+            };
+
+            var products = productsQuery
                 .Select(p => new ProductViewModel
                 {
                     Id = p.Id,
@@ -69,7 +89,16 @@
                 })
                 .ToList();
 
-            return View(products);
+            var categories = this.data
+                .Products
+                .Select(c => c.Category.Name)
+                .Distinct()
+                .ToList();
+
+            query.Categories = categories;
+            query.Products = products;
+
+            return View(query);
         }
 
         private IEnumerable<ProductCatergoryViewModel> GetProductCategories()
