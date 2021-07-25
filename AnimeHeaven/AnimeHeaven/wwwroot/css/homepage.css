@@ -1,0 +1,41 @@
+.proba{
+  border: 1px solid;
+  width: 315px;
+  height: 400px;  
+}
+
+.spanproba { 
+ font-size: 3em;
+ font-weight: bold;
+ text-decoration: underline;
+}
+
+.homeLogo{
+  font-size: 700%;
+  text-align: center;
+  display: grid;  
+}
+
+.newProducts{
+  text-align: center;
+  padding: 2%;
+}
+
+.wrapper{
+  border-color: black;
+  border-style: solid;
+  background-color: white;
+}
+
+table.center {
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+td{
+  padding: 10px;
+}
+
+.linkAll {
+    height:50px;
+}
