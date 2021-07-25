@@ -6,6 +6,8 @@
     using AnimeHeaven.Data;
     using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models.Products;
+    using Microsoft.AspNetCore.Authorization;
+    using AnimeHeaven.Infrastructure;
 
     public class ProductsController : Controller
     {
@@ -16,14 +18,36 @@
             this.data = data;
         }
 
-        public IActionResult Add() => View(new AddProductFormModel
+        [Authorize]
+        public IActionResult Add()
         {
-            Categories = this.GetProductCategories()
-        });
+            if (!this.UserIsDealer())
+            {
+                return RedirectToAction(nameof(SellerController.Become), "Seller");
+            }
+
+
+            return View(new AddProductFormModel
+            {
+                Categories = this.GetProductCategories()
+            });
+        }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddProductFormModel product)
         {
+            var sellerId = this.data
+                .Sellers
+                .Where(d => d.UserId == this.User.GetId())
+                .Select(d => d.Id)
+                .FirstOrDefault();
+
+            if (sellerId == 0)
+            {
+                return RedirectToAction(nameof(SellerController.Become), "Dealers");
+            }
+
             if (!this.data.Categories.Any(p => p.Id == product.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
@@ -44,7 +68,8 @@
                 Description = product.Description,
                 ImageUrl = product.ImageUrl,
                 Year = product.Year,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                SellerId = sellerId
             };
 
             this.data.Products.Add(productData);
@@ -105,6 +130,11 @@
 
             return View(query);
         }
+
+        private bool UserIsDealer()
+           => this.data
+               .Sellers
+               .Any(d => d.UserId == this.User.GetId());
 
         private IEnumerable<ProductCatergoryViewModel> GetProductCategories()
             => this.data
