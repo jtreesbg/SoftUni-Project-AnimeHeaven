@@ -77,7 +77,11 @@
                 ProductsSorting.DateCreated or _ => productsQuery.OrderByDescending(p => p.Id)
             };
 
+            var totalProducts = productsQuery.Count();
+
             var products = productsQuery
+                .Skip((query.CurrentPage - 1) * ProductsSearchQueryModel.ProductsPerPage)
+                .Take(ProductsSearchQueryModel.ProductsPerPage)
                 .Select(p => new ProductViewModel
                 {
                     Id = p.Id,
@@ -95,6 +99,7 @@
                 .Distinct()
                 .ToList();
 
+            query.TotalProducts = totalProducts;
             query.Categories = categories;
             query.Products = products;
 

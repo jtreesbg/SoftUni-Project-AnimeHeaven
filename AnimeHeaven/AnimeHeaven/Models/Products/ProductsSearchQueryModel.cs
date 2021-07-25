@@ -5,14 +5,20 @@
 
     public class ProductsSearchQueryModel
     {
+        public const int ProductsPerPage = 2;
+
+        public int TotalProducts { get; set; }
+
         public ProductsSorting Sorting { get; init; }
 
         [Display(Name = "Search by text:")]
         public string SearchTerm { get; init; }
 
-        public IEnumerable<string> Categories { get; set; }
+        public int CurrentPage { get; init; } = 1;
 
         public string Category { get; set; }
+
+        public IEnumerable<string> Categories { get; set; }
 
         public IEnumerable<ProductViewModel> Products { get; set; }
     }
