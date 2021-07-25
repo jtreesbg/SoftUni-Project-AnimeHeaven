@@ -6,28 +6,28 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using static DataConstants;
+    using static DataConstants.Products;
     public class Product
     {
         [Required]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ProductMaxNameLength)]
+        [MaxLength(MaxNameLength)]
         public string Name { get; set; }
 
         [Required]
         public double Price { get; set; }
 
         [Required]
-        [MaxLength(ProductAnimeOriginMaxLength)]
+        [MaxLength(AnimeOriginMaxLength)]
         public string AnimeOrigin { get; set; }
 
-        [MaxLength(ProductDescriptionMaxLength)]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
         [Required]
-        [MaxLength(ProductImageUrlMaxLength)]
+        [MaxLength(ImageUrlMaxLength)]
         public string ImageUrl { get; set; }
 
         [Required]
@@ -36,5 +36,9 @@
         public int CategoryId { get; set; }
 
         public Category Category { get; init; }
+
+        public int SellerId { get; init; }
+
+        public Seller Seller { get; init; }
     }
 }

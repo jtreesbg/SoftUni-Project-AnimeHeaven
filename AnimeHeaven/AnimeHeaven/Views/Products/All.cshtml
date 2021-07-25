@@ -54,8 +54,14 @@
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-sorting="@((int)Model.Sorting)"><<</a>
     </div>
+
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+                                     !Model.Products.Any();
+    }
+
     <div class="col-md-6">
-        <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
+        <a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
            asp-controller="Products"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)"
@@ -73,7 +79,7 @@
             {
                 <div class="col-md-3">
                     <div class="card mb-5">
-                        <img width="380" height="460" class="card-img-top" src="@product.ImageUrl" alt="Card image cap">
+                        <img width="360" height="440" class="card-img-top" src="@product.ImageUrl" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text nameDescription">@product.Name - @product.AnimeOrigin</p>
                             <p class="card-text nameDescription">@product.Category</p>

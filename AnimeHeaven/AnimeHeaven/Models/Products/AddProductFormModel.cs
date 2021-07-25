@@ -3,22 +3,22 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static Data.DataConstants;
+    using static Data.DataConstants.Products;
     public class AddProductFormModel
     {
         [Required]
-        [StringLength(ProductMaxNameLength, MinimumLength = ProductMinNameLength)]
+        [StringLength(MaxNameLength, MinimumLength = MinNameLength)]
         public string Name { get; init; }
 
         [Required]
         public double Price { get; init; }
 
         [Required]
-        [StringLength(ProductAnimeOriginMaxLength, MinimumLength = ProductAnimeOriginMinLength)]
+        [StringLength(AnimeOriginMaxLength, MinimumLength = AnimeOriginMinLength)]
         public string AnimeOrigin { get; init; }
 
         [Required]
-        [StringLength(ProductDescriptionMaxLength, MinimumLength = ProductDescriptionMinLength)]
+        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
         public string Description { get; init; }
 
         [Display(Name = "Image URL")]
@@ -26,7 +26,7 @@
         [Url]
         public string ImageUrl { get; init; }
 
-        [Range(ProductYearMinValue, ProductYearMaxValue)]
+        [Range(YearMinValue, YearMaxValue)]
         public int Year { get; init; }
 
         [Display(Name = "Category")]
