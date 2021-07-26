@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using AnimeHeaven.Models;
     using AnimeHeaven.Data;
-    using AnimeHeaven.Models.Products;
+    using AnimeHeaven.Services.Products;
 
     public class HomeController : Controller
     {
@@ -19,7 +19,7 @@
             var products = this.data
                 .Products
                 .OrderByDescending(c => c.Id)
-                .Select(p => new ProductViewModel
+                .Select(p => new ProductServiceModel
                 {
                     Id = p.Id,
                     Name = p.Name,

@@ -1,4 +1,4 @@
-﻿namespace AnimeHeaven.Models.Products
+﻿namespace AnimeHeaven.Models
 {
     public enum ProductsSorting
     {

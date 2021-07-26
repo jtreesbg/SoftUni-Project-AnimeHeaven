@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using AnimeHeaven.Services.Products;
 
     public class ProductsSearchQueryModel
     {
@@ -20,6 +21,6 @@
 
         public IEnumerable<string> Categories { get; set; }
 
-        public IEnumerable<ProductViewModel> Products { get; set; }
+        public IEnumerable<ProductServiceModel> Products { get; set; }
     }
 }

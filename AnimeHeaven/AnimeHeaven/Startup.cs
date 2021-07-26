@@ -9,6 +9,8 @@ namespace AnimeHeaven
     using Microsoft.Extensions.Hosting;
     using AnimeHeaven.Data;
     using AnimeHeaven.Infrastructure;
+    using AnimeHeaven.Services.Statistics;
+    using AnimeHeaven.Services.Products;
 
     public class Startup
     {
@@ -37,6 +39,9 @@ namespace AnimeHeaven
 
             services
                 .AddControllersWithViews();
+
+            services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IProductService, ProductService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

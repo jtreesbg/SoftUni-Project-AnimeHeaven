@@ -1,6 +1,11 @@
-﻿namespace AnimeHeaven.Models.Products
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AnimeHeaven.Services.Products
 {
-    public class ProductViewModel
+    public class ProductServiceModel
     {
         public int Id { get; set; }
 

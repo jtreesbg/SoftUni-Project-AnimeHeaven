@@ -8,14 +8,18 @@
     using AnimeHeaven.Models.Products;
     using Microsoft.AspNetCore.Authorization;
     using AnimeHeaven.Infrastructure;
+    using AnimeHeaven.Models;
+    using AnimeHeaven.Services.Products;
 
     public class ProductsController : Controller
     {
+        private readonly IProductService products;
         private readonly AnimeHeavenDbContext data;
 
-        public ProductsController(AnimeHeavenDbContext data)
+        public ProductsController(AnimeHeavenDbContext data, IProductService products)
         {
             this.data = data;
+            this.products = products;
         }
 
         [Authorize]
@@ -81,52 +85,18 @@
 
         public IActionResult All([FromQuery] ProductsSearchQueryModel query)
         {
-            var productsQuery = this.data.Products.AsQueryable();
+            var queryResult = this.products.All(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                ProductsSearchQueryModel.ProductsPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.Category))
-            {
-                productsQuery = productsQuery.Where(p => p.Category.Name == query.Category);
-            }
+            var categories = this.products.AllProductsCategories();
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                productsQuery = productsQuery.Where(p =>
-                    p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                    p.AnimeOrigin.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            productsQuery = query.Sorting switch
-            {
-                ProductsSorting.Anime => productsQuery.OrderBy(p => p.AnimeOrigin),
-                ProductsSorting.Year => productsQuery.OrderBy(p => p.Year),
-                ProductsSorting.DateCreated or _ => productsQuery.OrderByDescending(p => p.Id)
-            };
-
-            var totalProducts = productsQuery.Count();
-
-            var products = productsQuery
-                .Skip((query.CurrentPage - 1) * ProductsSearchQueryModel.ProductsPerPage)
-                .Take(ProductsSearchQueryModel.ProductsPerPage)
-                .Select(p => new ProductViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    AnimeOrigin = p.AnimeOrigin,
-                    Price = p.Price,
-                    Category = p.Category.Name,
-                    ImageUrl = p.ImageUrl
-                })
-                .ToList();
-
-            var categories = this.data
-                .Products
-                .Select(c => c.Category.Name)
-                .Distinct()
-                .ToList();
-
-            query.TotalProducts = totalProducts;
             query.Categories = categories;
-            query.Products = products;
+            query.TotalProducts = queryResult.TotalProducts;
+            query.Products = queryResult.Products;
 
             return View(query);
         }
