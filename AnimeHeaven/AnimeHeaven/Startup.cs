@@ -1,7 +1,5 @@
 namespace AnimeHeaven
 {
-    using AnimeHeaven.Data;
-    using AnimeHeaven.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -9,10 +7,12 @@ namespace AnimeHeaven
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using AnimeHeaven.Data;
+    using AnimeHeaven.Infrastructure;
 
     public class Startup
     {
-        public Startup(IConfiguration configuration) 
+        public Startup(IConfiguration configuration)
             => this.Configuration = configuration;
 
         public IConfiguration Configuration { get; }

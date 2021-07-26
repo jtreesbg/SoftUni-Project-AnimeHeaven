@@ -1,12 +1,9 @@
 ﻿namespace AnimeHeaven.Data
 {
-    using AnimeHeaven.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using AnimeHeaven.Data.Models;
 
     public class AnimeHeavenDbContext : IdentityDbContext
     {
@@ -17,12 +14,17 @@
         public DbSet<Product> Products { get; init; }
         public DbSet<Category> Categories { get; init; }
         public DbSet<Seller> Sellers { get; init; }
+        public DbSet<Favourites> Favourites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
+                .Entity<Favourites>()
+                .HasKey(f => new { f.ProductId, f.CustomerId });
+
+            builder
                 .Entity<Product>()
-                .HasOne(c => c.Category)
+                .HasOne(p => p.Category)
                 .WithMany(p => p.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);

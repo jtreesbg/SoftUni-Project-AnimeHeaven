@@ -27,5 +27,11 @@
             public const int PhoneNumberMinLength = 6;
             public const int PhoneNumberMaxLength = 30;
         }
+
+        public class Customer   
+        {
+            public const int UsernameMinLength = 2;
+            public const int UsernameMaxLength = 25;   
+        }
     }
 }
