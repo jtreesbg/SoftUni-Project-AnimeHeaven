@@ -8,11 +8,11 @@
     using AnimeHeaven.Models.Sellers;
     using AnimeHeaven.Infrastructure;
 
-    public class SellerController : Controller
+    public class SellersController : Controller
     {
         private readonly AnimeHeavenDbContext data;
 
-        public SellerController(AnimeHeavenDbContext data)
+        public SellersController(AnimeHeavenDbContext data)
             => this.data = data;
 
         [Authorize]

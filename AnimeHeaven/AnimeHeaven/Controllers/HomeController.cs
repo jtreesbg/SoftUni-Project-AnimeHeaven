@@ -25,7 +25,7 @@
                     Name = p.Name,
                     AnimeOrigin = p.AnimeOrigin,
                     Price = p.Price,
-                    Category = p.Category.Name,
+                    CategoryName = p.Category.Name,
                     ImageUrl = p.ImageUrl
                 })
                 .Take(3)

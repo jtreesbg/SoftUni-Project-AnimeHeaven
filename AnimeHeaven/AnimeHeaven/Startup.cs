@@ -11,6 +11,7 @@ namespace AnimeHeaven
     using AnimeHeaven.Infrastructure;
     using AnimeHeaven.Services.Statistics;
     using AnimeHeaven.Services.Products;
+    using AnimeHeaven.Services.Sellers;
 
     public class Startup
     {
@@ -42,6 +43,7 @@ namespace AnimeHeaven
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ISellerService, SellerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,85 +1,84 @@
 ﻿namespace AnimeHeaven.Controllers
 {
     using System.Linq;
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
     using AnimeHeaven.Data;
-    using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models.Products;
     using Microsoft.AspNetCore.Authorization;
     using AnimeHeaven.Infrastructure;
-    using AnimeHeaven.Models;
     using AnimeHeaven.Services.Products;
+    using AnimeHeaven.Services.Sellers;
 
     public class ProductsController : Controller
     {
         private readonly IProductService products;
+        private readonly ISellerService sellers;
         private readonly AnimeHeavenDbContext data;
 
-        public ProductsController(AnimeHeavenDbContext data, IProductService products)
+        public ProductsController(AnimeHeavenDbContext data, IProductService products, ISellerService sellers)
         {
             this.data = data;
             this.products = products;
+            this.sellers = sellers;
+        }
+
+        [Authorize]
+        public IActionResult My()
+        {
+            var myProducts = this.products.ByUser(this.User.GetId());
+
+            return View(myProducts);
         }
 
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIsDealer())
+            if (!this.sellers.IsSeller(this.User.GetId()))
             {
-                return RedirectToAction(nameof(SellerController.Become), "Seller");
+                return RedirectToAction(nameof(SellersController.Become), "Seller");
             }
 
-
-            return View(new AddProductFormModel
+            return View(new ProductFormModel
             {
-                Categories = this.GetProductCategories()
+                Categories = this.products.AllCategories()
             });
         }
 
-        [HttpPost]
         [Authorize]
-        public IActionResult Add(AddProductFormModel product)
+        [HttpPost]
+        public IActionResult Add(ProductFormModel product)
         {
-            var sellerId = this.data
-                .Sellers
-                .Where(d => d.UserId == this.User.GetId())
-                .Select(d => d.Id)
-                .FirstOrDefault();
+            var sellerId = this.sellers.IdByUser(this.User.GetId());
 
             if (sellerId == 0)
             {
-                return RedirectToAction(nameof(SellerController.Become), "Dealers");
+                return RedirectToAction(nameof(SellersController.Become), "Seller");
             }
 
-            if (!this.data.Categories.Any(p => p.Id == product.CategoryId))
+            if (!this.products.CategoryExists(product.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
             }
 
             if (!ModelState.IsValid)
             {
-                product.Categories = this.GetProductCategories();
+                product.Categories = this.products.AllCategories();
 
                 return View(product);
             }
 
-            var productData = new Product
-            {
-                Name = product.Name,
-                Price = product.Price,
-                AnimeOrigin = product.AnimeOrigin,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Year = product.Year,
-                CategoryId = product.CategoryId,
-                SellerId = sellerId
-            };
+            this.products.Create(
+                 product.Name,
+                 product.Price,
+                 product.AnimeOrigin,
+                 product.Description,
+                 product.ImageUrl,
+                 product.Year,
+                 product.CategoryId,
+                 sellerId
+             );
 
-            this.data.Products.Add(productData);
-            this.data.SaveChanges();
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
 
         }
 
@@ -92,7 +91,7 @@
                 query.CurrentPage,
                 ProductsSearchQueryModel.ProductsPerPage);
 
-            var categories = this.products.AllProductsCategories();
+            var categories = this.products.AllCategories().Select(c => c.Name);
 
             query.Categories = categories;
             query.TotalProducts = queryResult.TotalProducts;
@@ -101,19 +100,86 @@
             return View(query);
         }
 
-        private bool UserIsDealer()
-           => this.data
-               .Sellers
-               .Any(d => d.UserId == this.User.GetId());
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var model = this.data.Products.Where(p => p.Id == id).FirstOrDefault();
+            return View(model);
+        }
 
-        private IEnumerable<ProductCatergoryViewModel> GetProductCategories()
-            => this.data
-                .Categories
-                .Select(c => new ProductCatergoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-                .ToList();
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var userId = this.User.GetId();
+
+            if (!this.sellers.IsSeller(userId))
+            {
+                return RedirectToAction(nameof(SellersController.Become), "Dealers");
+            }
+
+            var product = this.products.Details(id);
+
+            if (product.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
+            return View(new ProductFormModel
+            {
+                Name = product.Name,
+                Price = product.Price,
+                AnimeOrigin = product.AnimeOrigin,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                Year = product.Year,
+                CategoryId = product.CategoryId,
+                Categories = this.products.AllCategories()
+            });
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(int id, ProductFormModel product)
+        {
+            var sellerId = this.sellers.IdByUser(this.User.GetId());
+
+            if (sellerId == 0)
+            {
+                return RedirectToAction(nameof(SellersController.Become), "Seller");
+            }
+
+            if (!this.products.CategoryExists(product.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                product.Categories = this.products.AllCategories();
+
+                return View(product);
+            }
+
+            var edited = this.products.Edit(
+                   id,
+                   product.Name,
+                   product.Price,
+                   product.AnimeOrigin,
+                   product.Description,
+                   product.ImageUrl,
+                   product.Year,
+                   product.CategoryId,
+                   sellerId
+               );
+
+            if (!edited)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(All));
+        }
     }
+
 }

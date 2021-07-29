@@ -78,21 +78,6 @@
 <div class="text-center">
     <div class="newProducts">
         <span class="spanproba">All Products:</span>
-        <div class="row">
-            @foreach (var product in Model.Products)
-            {
-                <div class="col-md-3">
-                    <div class="card mb-5">
-                        <img width="360" height="440" class="card-img-top" src="@product.ImageUrl" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text nameDescription">@product.Name - @product.AnimeOrigin</p>
-                            <p class="card-text nameDescription">@product.Category</p>
-                            <p class="card-text priceTag">Price: @product.Price €</p>
-                            <a asp-controller="Products" asp-ac tion="Details" asp-route-id="@product.Id" class="btn btn-primary"> More Details </a>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+        <partial name="_ProductsPartial" model="@Model.Products" />
     </div>
 </div>

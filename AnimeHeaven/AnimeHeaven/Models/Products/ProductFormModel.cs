@@ -2,9 +2,10 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using AnimeHeaven.Services.Products;
 
     using static Data.DataConstants.Products;
-    public class AddProductFormModel
+    public class ProductFormModel
     {
         [Required]
         [StringLength(MaxNameLength, MinimumLength = MinNameLength)]
@@ -32,6 +33,6 @@
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 
-        public IEnumerable<ProductCatergoryViewModel> Categories { get; set; }
+        public IEnumerable<ProductCatergoryServiceModel> Categories { get; set; }
     }
 }

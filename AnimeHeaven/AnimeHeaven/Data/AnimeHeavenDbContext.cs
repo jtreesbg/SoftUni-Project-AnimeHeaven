@@ -14,6 +14,7 @@
         public DbSet<Product> Products { get; init; }
         public DbSet<Category> Categories { get; init; }
         public DbSet<Seller> Sellers { get; init; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Favourites> Favourites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

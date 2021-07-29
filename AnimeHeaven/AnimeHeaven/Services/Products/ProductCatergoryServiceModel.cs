@@ -1,6 +1,6 @@
-﻿namespace AnimeHeaven.Models.Products
+﻿namespace AnimeHeaven.Services.Products
 {
-    public class ProductCatergoryViewModel
+    public class ProductCatergoryServiceModel
     {
         public int Id { get; init; }
 
