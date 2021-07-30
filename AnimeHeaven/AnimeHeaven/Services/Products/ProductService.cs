@@ -1,6 +1,5 @@
 ﻿namespace AnimeHeaven.Services.Products
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using AnimeHeaven.Data;
@@ -153,11 +152,6 @@
         {
             var productData = this.data.Products.Find(id);
 
-            if (productData.SellerId != sellerId)
-            {
-                return false;
-            }
-
             productData.Name = name;
             productData.Price = price;
             productData.AnimeOrigin = animeOrigin;
@@ -170,5 +164,10 @@
 
             return true;
         }
+
+        public bool IsBySeller(int productId, int sellerId)
+            => this.data
+                .Products
+                .Any(p => p.Id == productId && p.SellerId == sellerId);
     }
 }

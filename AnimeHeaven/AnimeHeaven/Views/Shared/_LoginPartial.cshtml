@@ -1,22 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using AnimeHeaven.Services.Sellers
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject ISellerService Sellers
 
 @if (SignInManager.IsSignedIn(User))
 {
     var userId = User.GetId();
     var userIsSeller = Sellers.IsSeller(userId);
+    var userIsAdmim = User.IsAdmin();
 
-    @if (userIsSeller)
+    @if (userIsSeller && !userIsAdmim)
     {
         <a class="nav-link text-white" asp-controller="Products" asp-action="My">My Products</a>
     }
-    else
+    else if (!userIsAdmim)
     {
-        <a class="nav-link text-white" asp-controller="Seller" asp-action="Become">Become Seller</a>
+        <a class="nav-link text-white" asp-controller="Sellers" asp-action="Become">Become Seller</a>
     }
 
     <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>

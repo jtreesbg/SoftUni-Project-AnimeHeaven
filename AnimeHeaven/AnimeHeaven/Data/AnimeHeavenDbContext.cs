@@ -1,11 +1,10 @@
 ﻿namespace AnimeHeaven.Data
 {
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using AnimeHeaven.Data.Models;
 
-    public class AnimeHeavenDbContext : IdentityDbContext
+    public class AnimeHeavenDbContext : IdentityDbContext<User>
     {
         public AnimeHeavenDbContext(DbContextOptions<AnimeHeavenDbContext> options)
             : base(options)
@@ -32,7 +31,7 @@
 
             builder
                 .Entity<Seller>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Seller>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

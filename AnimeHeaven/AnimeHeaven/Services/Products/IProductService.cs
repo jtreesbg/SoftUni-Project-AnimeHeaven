@@ -35,6 +35,7 @@
             int productsPerPage);
 
         IEnumerable<ProductServiceModel> ByUser(string userId);
+        bool IsBySeller(int productId, int sellerId);
 
         IEnumerable<ProductCatergoryServiceModel> AllCategories();
 
