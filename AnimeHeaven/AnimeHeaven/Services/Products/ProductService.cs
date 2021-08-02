@@ -5,14 +5,18 @@
     using AnimeHeaven.Data;
     using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
 
     public class ProductService : IProductService
     {
         private readonly AnimeHeavenDbContext data;
+        private readonly IConfigurationProvider mapper;
 
-        public ProductService(AnimeHeavenDbContext data)
+        public ProductService(AnimeHeavenDbContext data, IConfigurationProvider mapper)
         {
             this.data = data;
+            this.mapper = mapper;
         }
 
         public ProductQueryServiceModel All(
@@ -48,15 +52,7 @@
             var products = productsQuery
                 .Skip((currentPage - 1) * productsPerPage)
                 .Take(productsPerPage)
-                .Select(p => new ProductServiceModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    AnimeOrigin = p.AnimeOrigin,
-                    Price = p.Price,
-                    CategoryName = p.Category.Name,
-                    ImageUrl = p.ImageUrl
-                })
+                .ProjectTo<ProductServiceModel>(this.mapper)
                 .ToList();
 
             var categories = this.data
@@ -91,36 +87,14 @@
 
         private IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productQuery)
             => productQuery
-               .Select(p => new ProductServiceModel
-               {
-                   Id = p.Id,
-                   Year = p.Year,
-                   ImageUrl = p.ImageUrl,
-                   CategoryName = p.Category.Name,
-                   AnimeOrigin = p.AnimeOrigin,
-                   Name = p.Name,
-                   Price = p.Price,
-               })
+               .ProjectTo<ProductServiceModel>(this.mapper)
                .ToList();
 
         public ProductDetailsServiceModel Details(int id)
         => this.data
             .Products
             .Where(p => p.Id == id)
-            .Select(p => new ProductDetailsServiceModel
-            {
-                Id = p.Id,
-                Year = p.Year,
-                ImageUrl = p.ImageUrl,
-                CategoryName = p.Category.Name,
-                AnimeOrigin = p.AnimeOrigin,
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description,
-                SellerId = p.Seller.Id,
-                SellerName = p.Seller.Name,
-                UserId = p.Seller.UserId
-            })
+            .ProjectTo<ProductDetailsServiceModel>(this.mapper)
             .FirstOrDefault();
 
         public bool CategoryExists(int categoryId)

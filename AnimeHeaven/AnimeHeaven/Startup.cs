@@ -40,6 +40,8 @@ namespace AnimeHeaven
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AnimeHeavenDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services
                 .AddControllersWithViews();
 

@@ -2,24 +2,25 @@
 {
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
-    using AnimeHeaven.Data;
     using AnimeHeaven.Models.Products;
     using Microsoft.AspNetCore.Authorization;
     using AnimeHeaven.Infrastructure;
     using AnimeHeaven.Services.Products;
     using AnimeHeaven.Services.Sellers;
+    using AutoMapper;
 
     public class ProductsController : Controller
     {
         private readonly IProductService products;
         private readonly ISellerService sellers;
-        private readonly AnimeHeavenDbContext data;
+        private readonly IMapper mapper;
 
-        public ProductsController(AnimeHeavenDbContext data, IProductService products, ISellerService sellers)
+
+        public ProductsController(IProductService products, ISellerService sellers, IMapper mapper)
         {
-            this.data = data;
             this.products = products;
             this.sellers = sellers;
+            this.mapper = mapper;
         }
 
         [Authorize]
@@ -103,7 +104,7 @@
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var model = this.data.Products.Where(p => p.Id == id).FirstOrDefault();
+            var model = this.products.Details(id);
             return View(model);
         }
 
@@ -124,19 +125,12 @@
                 return Unauthorized();
             }
 
-            return View(new ProductFormModel
-            {
-                Name = product.Name,
-                Price = product.Price,
-                AnimeOrigin = product.AnimeOrigin,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Year = product.Year,
-                CategoryId = product.CategoryId,
-                Categories = this.products.AllCategories()
-            });
-        }
+            var productForm = this.mapper.Map<ProductFormModel>(product);
 
+            productForm.Categories = this.products.AllCategories();
+
+            return View(productForm);
+        }
 
         [Authorize]
         [HttpPost]
@@ -161,7 +155,7 @@
                 return View(product);
             }
 
-            if(!this.products.IsBySeller(id,sellerId) && !User.IsAdmin())
+            if (!this.products.IsBySeller(id, sellerId) && !User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -183,8 +177,6 @@
             {
                 return BadRequest();
             }
-
-            this.data.SaveChanges();
 
             return RedirectToAction(nameof(All));
         }
