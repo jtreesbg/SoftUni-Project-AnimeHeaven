@@ -10,7 +10,7 @@
     using AnimeHeaven.Data;
     using AnimeHeaven.Data.Models;
 
-    using static WebConstants;
+    using static AnimeHeaven.Areas.Admin.AdminConstants;
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder PrepareDatabase(
