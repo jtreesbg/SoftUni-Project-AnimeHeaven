@@ -1,1 +1,27 @@
-﻿
+﻿@model ProductDetailsServiceModel
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <img class="border" src="@Model.ImageUrl" alt="Product image" width="550" height="700">
+            </div>
+            <div class="col-6">
+                <ul class="list-group ">
+                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Name: </li>
+                    <li class="list-group-item">@Model.Name</li>
+                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Anime: </li>
+                    <li class="list-group-item">@Model.AnimeOrigin</li>
+                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Category: </li>
+                    <li class="list-group-item">@Model.CategoryName</li>
+                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Year of creation: </li>
+                    <li class="list-group-item">@Model.Year</li>
+                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Price: </li>
+                    <li class="list-group-item">@Model.Price $</li>
+                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Description: </li>
+                    <li class="list-group-item">@Model.Description</li>
+                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Seller: </li>
+                    <li class="list-group-item">@Model.SellerName</li>
+                </ul>
+            </div>
+        </div>
+    </div>

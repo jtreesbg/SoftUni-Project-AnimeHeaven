@@ -1,35 +1,24 @@
 ﻿namespace WebApplication1.Controllers
 {
-    using System.Linq;
     using System.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using AnimeHeaven.Models;
-    using AnimeHeaven.Data;
     using AnimeHeaven.Services.Products;
 
     public class HomeController : Controller
     {
-        private readonly AnimeHeavenDbContext data;
-        private readonly IConfigurationProvider mapper;
+        private readonly IProductService products;
 
-        public HomeController(AnimeHeavenDbContext data, IConfigurationProvider mapper)
+        public HomeController(IProductService products)
         {
-            this.data = data;
-            this.mapper = mapper;
+            this.products = products;
         }
 
         public IActionResult Index()
         {
-            var products = this.data
-                .Products
-                .OrderByDescending(c => c.Id)
-                .ProjectTo<ProductServiceModel>(this.mapper)
-                .Take(3)
-                .ToList();
+            var recent = this.products.GetRecentProducts();
 
-            return View(products);
+            return View(recent);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

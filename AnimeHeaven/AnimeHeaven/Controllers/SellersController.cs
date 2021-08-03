@@ -1,52 +1,48 @@
 ﻿namespace AnimeHeaven.Controllers
 {
-    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using AnimeHeaven.Data;
     using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models.Sellers;
     using AnimeHeaven.Infrastructure;
+    using AnimeHeaven.Services.Sellers;
 
     public class SellersController : Controller
     {
-        private readonly AnimeHeavenDbContext data;
+        private readonly ISellerService sellers;
 
-        public SellersController(AnimeHeavenDbContext data)
-            => this.data = data;
+        public SellersController(ISellerService sellers)
+            => this.sellers = sellers;
 
         [Authorize]
         public IActionResult Become() => View();
 
         [HttpPost]
         [Authorize]
-        public IActionResult Become(BecomeSellerFormModel dealer)
+        public IActionResult Become(BecomeSellerFormModel seller)
         {
             var userId = this.User.GetId();
 
-            var userIdAlreadyDealer = this.data
-                .Sellers
-                .Any(d => d.UserId == userId);
+            var userIdAlreadySeller = this.sellers.IsSeller(userId);
 
-            if (userIdAlreadyDealer)
+            if (userIdAlreadySeller)
             {
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
-                return View(dealer);
+                return View(seller);
             }
 
-            var dealerData = new Seller
+            var sellerData = new Seller
             {
-                Name = dealer.Name,
-                PhoneNumber = dealer.PhoneNumber,
+                Name = seller.Name,
+                PhoneNumber = seller.PhoneNumber,
                 UserId = userId
             };
 
-            this.data.Sellers.Add(dealerData);
-            this.data.SaveChanges();
+            this.sellers.SaveSellerInDb(sellerData);
 
             return RedirectToAction("All", "Products");
         }

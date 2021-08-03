@@ -1,6 +1,7 @@
 ﻿namespace AnimeHeaven.Services.Sellers
 {
     using AnimeHeaven.Data;
+    using AnimeHeaven.Data.Models;
     using System.Linq;
 
     public class SellerService : ISellerService
@@ -23,5 +24,11 @@
                 .Where(d => d.UserId == userId)
                 .Select(d => d.Id)
                 .FirstOrDefault();
+
+        public void SaveSellerInDb(Seller seller)
+        {
+            this.data.Sellers.Add(seller);
+            this.data.SaveChanges();
+        }
     }
 }

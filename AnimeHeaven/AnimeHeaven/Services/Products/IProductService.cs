@@ -42,5 +42,7 @@
         ProductDetailsServiceModel Details(int id);
 
         bool CategoryExists(int categoryId);
+
+        IEnumerable<ProductServiceModel> GetRecentProducts();
     }
 }

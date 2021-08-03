@@ -143,5 +143,14 @@
             => this.data
                 .Products
                 .Any(p => p.Id == productId && p.SellerId == sellerId);
+
+        public IEnumerable<ProductServiceModel> GetRecentProducts()
+        => this.data
+                .Products
+                .OrderByDescending(p => p.Id)
+                .ProjectTo<ProductServiceModel>(this.mapper)
+                .Take(3)
+                .ToList();
+
     }
 }

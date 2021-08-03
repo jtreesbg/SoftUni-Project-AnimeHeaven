@@ -10,7 +10,7 @@
                     <p class="card-text nameDescription">@product.Name - @product.AnimeOrigin</p>
                     <p class="card-text nameDescription">@product.CategoryName</p>
                     <p class="card-text priceTag">Price: @product.Price €</p>
-                    <a asp-controller="Products" asp-ac tion="Details" asp-route-id="@product.Id" class="btn btn-primary"> More Details </a>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary"> More Details </a>
                     @if (ViewBag.AllowProductEdit == true || User.IsAdmin())
                     {
                         <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">Edit</a>
