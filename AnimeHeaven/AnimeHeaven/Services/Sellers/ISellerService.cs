@@ -7,6 +7,8 @@
 
         public int IdByUser(string userId);
 
+        public Customer GetCustomer(string userId);
+
         public void SaveSellerInDb(Seller seller);
     }
 }

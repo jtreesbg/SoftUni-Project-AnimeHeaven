@@ -7,18 +7,19 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using AnimeHeaven.Data.Models;
+    using AnimeHeaven.Data;
 
-    using static Data.DataConstants.User;
+    using static Data.DataConstants.Customer;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<User> signInManager;
-        private readonly UserManager<User> userManager;
+        private readonly SignInManager<Customer> signInManager;
+        private readonly UserManager<Customer> userManager;
 
         public RegisterModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            UserManager<Customer> userManager,
+            SignInManager<Customer> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -33,7 +34,12 @@
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Required]
+            [StringLength(UsernameMaxlength)]
+            public string Username { get; set; }
 
             [Display(Name = "Full Name")]
             [StringLength(FullNameMaxLength)]
@@ -60,11 +66,11 @@
             returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new User
+                var user = new Customer
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    FullName = Input.FullName
+                    FullName = Input.FullName,
                 };
 
                 var result = await this.userManager.CreateAsync(user, Input.Password);

@@ -30,5 +30,10 @@
             this.data.Sellers.Add(seller);
             this.data.SaveChanges();
         }
+
+        public Customer GetCustomer(string userId)
+        {
+            return this.data.Users.Where(u => u.Id == userId).FirstOrDefault();
+        }
     }
 }

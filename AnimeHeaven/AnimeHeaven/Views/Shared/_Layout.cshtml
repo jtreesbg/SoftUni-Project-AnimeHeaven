@@ -1,4 +1,4 @@
-﻿@inject SignInManager<User> SignInManager
+﻿@inject SignInManager<Customer> SignInManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +32,6 @@
                         </li>
                         @if (!User.IsAdmin())
                         {
-
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-controller="Products" asp-action="Add">Add Product</a>
                             </li>

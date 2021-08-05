@@ -36,7 +36,7 @@
         {
             if (!this.sellers.IsSeller(this.User.GetId()))
             {
-                return RedirectToAction(nameof(SellersController.Become), "Seller");
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
 
             return View(new ProductFormModel
@@ -80,7 +80,6 @@
              );
 
             return RedirectToAction(nameof(All));
-
         }
 
         public IActionResult All([FromQuery] ProductsSearchQueryModel query)

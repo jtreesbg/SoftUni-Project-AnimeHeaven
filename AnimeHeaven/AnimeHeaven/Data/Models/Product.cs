@@ -38,6 +38,6 @@
 
         public Seller Seller { get; init; }
 
-        public ICollection<Favourites> Favourites { get; set; }
+        public string UserId { get; set; }
     }
 }

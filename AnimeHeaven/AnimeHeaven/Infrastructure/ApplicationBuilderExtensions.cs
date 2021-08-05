@@ -57,7 +57,7 @@
 
         private static void SeedAdministrator(IServiceProvider services)
         {
-            var userManager = services.GetRequiredService<UserManager<User>>();
+            var userManager = services.GetRequiredService<UserManager<Customer>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
             Task
@@ -73,9 +73,9 @@
                     await roleManager.CreateAsync(role);
 
                     const string adminEmail = "admin@ah.com";
-                    const string adminPassword = "admin1";
+                    const string adminPassword = "123123";
 
-                    var user = new User
+                    var user = new Customer
                     {
                         Email = adminEmail,
                         UserName = adminEmail,

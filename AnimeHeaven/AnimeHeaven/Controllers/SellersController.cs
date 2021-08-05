@@ -23,6 +23,8 @@
         {
             var userId = this.User.GetId();
 
+            var customer = this.sellers.GetCustomer(userId);
+
             var userIdAlreadySeller = this.sellers.IsSeller(userId);
 
             if (userIdAlreadySeller)
@@ -37,9 +39,11 @@
 
             var sellerData = new Seller
             {
-                Name = seller.Name,
+                UserId = userId,
                 PhoneNumber = seller.PhoneNumber,
-                UserId = userId
+                Address = seller.Address,
+                Email = customer.Email,
+                Username = customer.UserName
             };
 
             this.sellers.SaveSellerInDb(sellerData);

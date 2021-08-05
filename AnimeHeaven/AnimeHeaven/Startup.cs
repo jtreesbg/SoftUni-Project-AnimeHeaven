@@ -13,6 +13,7 @@ namespace AnimeHeaven
     using AnimeHeaven.Services.Products;
     using AnimeHeaven.Services.Sellers;
     using AnimeHeaven.Data.Models;
+    using AnimeHeaven.Services.Profile;
 
     public class Startup
     {
@@ -30,7 +31,7 @@ namespace AnimeHeaven
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<User>(options =>
+                .AddDefaultIdentity<Customer>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
@@ -48,6 +49,7 @@ namespace AnimeHeaven
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ISellerService, SellerService>();
+            services.AddTransient<IProfileService, ProfileService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

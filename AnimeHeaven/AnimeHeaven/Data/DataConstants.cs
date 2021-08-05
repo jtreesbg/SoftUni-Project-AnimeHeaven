@@ -2,8 +2,10 @@
 {
     public class DataConstants
     {
-        public class User
+        public class Customer
         {
+            public const int UsernameMinlength = 4;
+            public const int UsernameMaxlength = 20; 
             public const int FullNameMinLength = 2;
             public const int FullNameMaxLength = 40;
             public const int PasswordMinLength = 4;
@@ -34,12 +36,7 @@
             public const int NameMaxLength = 25;
             public const int PhoneNumberMinLength = 6;
             public const int PhoneNumberMaxLength = 30;
-        }
-
-        public class Customer   
-        {
-            public const int UsernameMinLength = 2;
-            public const int UsernameMaxLength = 25;   
+            public const int AddressMaxLength = 50;
         }
     }
 }

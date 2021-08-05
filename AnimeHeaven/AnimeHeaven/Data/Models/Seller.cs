@@ -10,11 +10,19 @@
 
         [Required]
         [MaxLength(NameMaxLength)]
-        public string Name { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [MaxLength(PhoneNumberMaxLength)]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(AddressMaxLength)]
+        public string Address { get; set; }
 
         [Required]
         public string UserId { get; set; }

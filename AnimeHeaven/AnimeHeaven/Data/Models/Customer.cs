@@ -2,20 +2,15 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Identity;
+
     using static DataConstants.Customer;
-
-    public class Customer
+    public class Customer : IdentityUser
     {
-        public int Id { get; set; }
-
         [Required]
-        [MaxLength(UsernameMaxLength)]
-        public string Username { get; set; }
+        [MaxLength(FullNameMaxLength)]
+        public string FullName { get; set; }
 
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        public ICollection<Favourites> Favourites { get; set; }
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

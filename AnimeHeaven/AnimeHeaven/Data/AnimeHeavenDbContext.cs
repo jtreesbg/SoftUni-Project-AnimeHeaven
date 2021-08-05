@@ -1,27 +1,23 @@
 ﻿namespace AnimeHeaven.Data
 {
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using AnimeHeaven.Data.Models;
 
-    public class AnimeHeavenDbContext : IdentityDbContext<User>
+    public class AnimeHeavenDbContext : IdentityDbContext<Customer>
     {
         public AnimeHeavenDbContext(DbContextOptions<AnimeHeavenDbContext> options)
             : base(options)
         {
         }
+
         public DbSet<Product> Products { get; init; }
         public DbSet<Category> Categories { get; init; }
         public DbSet<Seller> Sellers { get; init; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Favourites> Favourites { get; set; }
-
+        public DbSet<Customer> Customers { get; set; }    
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder
-                .Entity<Favourites>()
-                .HasKey(f => new { f.ProductId, f.CustomerId });
-
             builder
                 .Entity<Product>()
                 .HasOne(p => p.Category)
@@ -31,7 +27,7 @@
 
             builder
                 .Entity<Seller>()
-                .HasOne<User>()
+                .HasOne<Customer>()
                 .WithOne()
                 .HasForeignKey<Seller>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

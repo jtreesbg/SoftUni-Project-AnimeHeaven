@@ -1,0 +1,78 @@
+﻿@model ProfileInfoServiceModel
+
+@inject SignInManager<Customer> SignInManager
+
+<div class="container">
+    <div class="main-body">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="@Model.ImageUrl" alt="Account" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>@Model.Name</h4>
+                                <p class="text-secondary mb-1">Role: @Model.Role</p>
+                                @if (@Model.Role == "Seller")
+                                {
+                                    <p class="text-secondary mb-1">@(Model.ProductsForSale > 1 ? $"{Model.ProductsForSale} products for sale" : $"{Model.ProductsForSale} product for sale")</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4 class="mb-0">Full Name</h4>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <p>@Model.FullName<p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4 class="mb-0">Email</h4>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <p>@Model.Email<p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4 class="mb-0">Phone</h4>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <p>@Model.Phone<p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4 class="mb-0">Address</h4>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <p>@Model.Address<p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (!User.IsAdmin() && Model.Role != "Seller")
+                                {
+                                    <a class="btn btn-info " asp-controller="Sellers" asp-action="Become">Become Seller</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
