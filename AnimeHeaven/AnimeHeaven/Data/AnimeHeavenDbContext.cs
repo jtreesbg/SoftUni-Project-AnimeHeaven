@@ -14,10 +14,15 @@
         public DbSet<Product> Products { get; init; }
         public DbSet<Category> Categories { get; init; }
         public DbSet<Seller> Sellers { get; init; }
-        public DbSet<Customer> Customers { get; set; }    
-        
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder
+                .Entity<Favourite>()
+                .HasKey(f => new { f.ProductId, f.UserId });
+
             builder
                 .Entity<Product>()
                 .HasOne(p => p.Category)

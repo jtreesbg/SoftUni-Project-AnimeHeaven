@@ -21,6 +21,11 @@
         [Authorize]
         public IActionResult Become(BecomeSellerFormModel seller)
         {
+            if (this.User.IsAdmin())
+            {
+                return RedirectToAction("All", "Products");
+            }
+
             var userId = this.User.GetId();
 
             var customer = this.sellers.GetCustomer(userId);

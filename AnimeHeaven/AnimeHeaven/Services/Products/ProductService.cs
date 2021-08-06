@@ -151,6 +151,5 @@
                 .ProjectTo<ProductServiceModel>(this.mapper)
                 .Take(3)
                 .ToList();
-
     }
 }

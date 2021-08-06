@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     using AnimeHeaven.Services.Profile;
     using AnimeHeaven.Infrastructure;
+    using Microsoft.AspNetCore.Authorization;
 
     public class ProfileController : Controller
     {
@@ -13,6 +14,7 @@
             this.profile = profile;
         }
 
+        [Authorize]
         public IActionResult Account()
         {
             var userId = this.User.GetId();
@@ -35,6 +37,16 @@
             };
 
             return View(profileInfo);
+        }
+
+        [Authorize]
+        public IActionResult AddToFavourites(int id)
+        {
+            var userId = this.User.GetId();
+
+            this.profile.AddProductToUserFavourite(userId, id);
+
+            return Redirect("/Products/All");
         }
     }
 }

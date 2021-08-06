@@ -14,6 +14,11 @@
             this.data = data;
         }
 
+        public Product GetProduct(int id)
+        {
+            return this.data.Products.Where(p => p.Id == id).FirstOrDefault();
+        }
+
         public List<Product> GetProducts(string userId)
         {
             var id = GetSellerId(userId);
@@ -22,6 +27,21 @@
                 .Products
                 .Where(p => p.SellerId == id)
                 .ToList();
+        }
+
+        //Move to favourite service
+        public bool AddProductToUserFavourite(string userId, int productId)
+        {
+            var fav = new Favourite()
+            {
+                UserId = userId,
+                ProductId = productId
+            };
+
+            this.data.Favourites.Add(fav);
+            this.data.SaveChanges();
+
+            return true;
         }
 
         public bool IsSeller(string userId)

@@ -1,27 +1,40 @@
 ﻿@model ProductDetailsServiceModel
 
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <img class="border" src="@Model.ImageUrl" alt="Product image" width="550" height="700">
-            </div>
-            <div class="col-6">
-                <ul class="list-group ">
-                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Name: </li>
-                    <li class="list-group-item">@Model.Name</li>
-                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Anime: </li>
-                    <li class="list-group-item">@Model.AnimeOrigin</li>
-                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Category: </li>
-                    <li class="list-group-item">@Model.CategoryName</li>
-                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Year of creation: </li>
-                    <li class="list-group-item">@Model.Year</li>
-                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Price: </li>
-                    <li class="list-group-item">@Model.Price $</li>
-                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Description: </li>
-                    <li class="list-group-item">@Model.Description</li>
-                    <li class="list-group-item font-weight-bold" style="background-color:lightgray">Seller: </li>
-                    <li class="list-group-item">@Model.SellerName</li>
-                </ul>
-            </div>
+@using AnimeHeaven.Data
+@inject AnimeHeavenDbContext data
+@{
+    var userId = this.User.GetId();
+    var seller = data.Sellers.Where(s => s.UserId == userId).FirstOrDefault();
+    var isFavouriteAlready = data.Favourites.Any(f => f.UserId == userId && f.ProductId == Model.Id);
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <img class="border" src="@Model.ImageUrl" alt="Product image" width="550" height="700">
+        </div>
+        <div class="col-6">
+            <ul class="list-group ">
+                <li class="list-group-item font-weight-bold" style="background-color:lightgray">Name: </li>
+                <li class="list-group-item">@Model.Name</li>
+                <li class="list-group-item font-weight-bold" style="background-color:lightgray">Anime: </li>
+                <li class="list-group-item">@Model.AnimeOrigin</li>
+                <li class="list-group-item font-weight-bold" style="background-color:lightgray">Category: </li>
+                <li class="list-group-item">@Model.CategoryName</li>
+                <li class="list-group-item font-weight-bold" style="background-color:lightgray">Year of creation: </li>
+                <li class="list-group-item">@Model.Year</li>
+                <li class="list-group-item font-weight-bold" style="background-color:lightgray">Price: </li>
+                <li class="list-group-item">@Model.Price $</li>
+                <li class="list-group-item font-weight-bold" style="background-color:lightgray">Description: </li>
+                <li class="list-group-item">@Model.Description</li>
+                <li class="list-group-item font-weight-bold" style="background-color:lightgray">Seller: </li>
+                <li class="list-group-item">@Model.SellerName</li>
+            </ul>
+            @if (seller == null && !User.IsAdmin() && !isFavouriteAlready)
+                @using (Html.BeginForm("AddToFavourites", "Profile", new { id = Model.Id }))
+                {
+                    <button class="btn btn-primary mt-3">Add to Favourites &#11088;</button>
+                }
         </div>
     </div>
+</div>

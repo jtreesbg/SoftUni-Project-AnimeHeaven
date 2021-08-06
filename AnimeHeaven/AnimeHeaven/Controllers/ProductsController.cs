@@ -34,6 +34,11 @@
         [Authorize]
         public IActionResult Add()
         {
+            if (User.IsAdmin())
+            {
+                return RedirectToAction(nameof(ProductsController.All), "Products");
+            }
+
             if (!this.sellers.IsSeller(this.User.GetId()))
             {
                 return RedirectToAction(nameof(SellersController.Become), "Sellers");
@@ -49,6 +54,11 @@
         [HttpPost]
         public IActionResult Add(ProductFormModel product)
         {
+            if (User.IsAdmin())
+            {
+                return RedirectToAction(nameof(ProductsController.All), "Products");
+            }
+
             var sellerId = this.sellers.IdByUser(this.User.GetId());
 
             if (sellerId == 0)
@@ -156,6 +166,7 @@
 
             if (!this.products.IsBySeller(id, sellerId) && !User.IsAdmin())
             {
+
                 return Unauthorized();
             }
 
@@ -171,14 +182,13 @@
                    sellerId
                );
 
-
             if (!edited && !User.IsAdmin())
             {
                 return BadRequest();
             }
 
             return RedirectToAction(nameof(All));
-        }
+        }     
     }
 
 }
