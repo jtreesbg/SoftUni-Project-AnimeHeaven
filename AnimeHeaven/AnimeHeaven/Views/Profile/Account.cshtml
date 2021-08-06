@@ -63,9 +63,13 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                @if (!User.IsAdmin() && Model.Role != "Seller")
+                                @if (Model.Role != "Seller")
                                 {
                                     <a class="btn btn-info " asp-controller="Sellers" asp-action="Become">Become Seller</a>
+                                }
+                                @if (Model.Role == "Customer")
+                                {
+                                    <a class="btn btn-info " asp-controller="Profile" asp-action="Favourites">See Favourites</a>
                                 }
                             </div>
                         </div>

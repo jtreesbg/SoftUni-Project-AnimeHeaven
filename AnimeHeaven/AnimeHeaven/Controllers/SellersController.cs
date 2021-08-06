@@ -23,7 +23,7 @@
         {
             if (this.User.IsAdmin())
             {
-                return RedirectToAction("All", "Products");
+                return RedirectToAction(nameof(ProductsController.All), "Products");
             }
 
             var userId = this.User.GetId();
@@ -53,7 +53,7 @@
 
             this.sellers.SaveSellerInDb(sellerData);
 
-            return RedirectToAction("All", "Products");
+            return RedirectToAction(nameof(ProductsController.All), "Products");
         }
     }
 }
