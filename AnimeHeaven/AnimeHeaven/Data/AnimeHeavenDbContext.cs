@@ -16,9 +16,14 @@
         public DbSet<Seller> Sellers { get; init; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder
+                .Entity<ShoppingCart>()
+                .HasKey(f => new { f.ProductId, f.UserId }); 
+
             builder
                 .Entity<Favourite>()
                 .HasKey(f => new { f.ProductId, f.UserId });

@@ -50,6 +50,28 @@
             return true;
         }
 
+        public IEnumerable<Product> GetCustomerFavouriteProducts(string userId)
+            => this.data
+                .Favourites
+                .Where(f => f.UserId == userId)
+                .Select(f => f.Product);
+
+
+        //Move to shopping cart service
+        public bool AddProductToShoppingCart(string userId, int productId)
+        {
+            var fav = new ShoppingCart()
+            {
+                UserId = userId,
+                ProductId = productId
+            };
+
+            this.data.ShoppingCarts.Add(fav);
+            this.data.SaveChanges();
+
+            return true;
+        }
+
         public ProductQueryServiceModel All(
             string category,
             string searchTerm,
@@ -116,26 +138,13 @@
                    .FirstOrDefault();
 
         public Seller GetSellerDetails(string userId)
-        {
-            var seller = this.data
+        => this.data
                  .Sellers
                  .Where(c => c.UserId == userId)
                  .FirstOrDefault();
 
-            return seller;
-        }
-
         public Customer GetCustomerDetails(string userId)
-        {
-            var user = this.data.Customers.Where(c => c.Id == userId).FirstOrDefault();
+            => this.data.Customers.Where(c => c.Id == userId).FirstOrDefault();
 
-            return user;
-        }
-
-        public IEnumerable<Product> GetCustomerFavouriteProducts(string userId)
-        => this.data
-            .Favourites
-            .Where(f => f.UserId == userId)
-            .Select(f => f.Product);
     }
 }

@@ -1,12 +1,14 @@
 ﻿namespace AnimeHeaven.Controllers
 {
     using System.Linq;
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using AnimeHeaven.Services.Profile;
     using AnimeHeaven.Infrastructure;
     using AnimeHeaven.Models.Products;
     using AnimeHeaven.Services.Products;
+    using AnimeHeaven.Data.Models;
 
     public class ProfileController : Controller
     {
@@ -27,19 +29,25 @@
                 return RedirectToAction(nameof(ProductsController.All), "Products");
             }
 
+            var seller = new Seller();
+            var products = new List<Product>();
+
             var userId = this.User.GetId();
-            var isSeller = this.profile.IsSeller(userId);
             var customer = this.profile.GetCustomerDetails(userId);
-            var seller = this.profile.GetSellerDetails(userId);
-            var products = this.profile.GetSellerProducts(userId);
+            var isSeller = this.profile.IsSeller(userId);
+
+            if (isSeller == true)
+            {
+                seller = this.profile.GetSellerDetails(userId);
+                products = this.profile.GetSellerProducts(userId);
+            }
 
             var profileInfo = new ProfileInfoServiceModel
             {
                 Id = userId,
                 Name = customer.UserName,
                 FullName = customer.FullName,
-                Products = products,
-                ProductsForSale = products.Count,
+                ProductsForSale = isSeller ? products.Count : 0,
                 Email = customer.Email,
                 Role = isSeller ? "Seller" : "Customer",
                 Phone = isSeller ? seller.PhoneNumber : "Need to become Seller",

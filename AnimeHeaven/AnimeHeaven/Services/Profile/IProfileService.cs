@@ -30,5 +30,7 @@
             int currentPage,
             int productsPerPage,
             string userId);
+
+        public bool AddProductToShoppingCart(string userId, int productId);
     }
 }

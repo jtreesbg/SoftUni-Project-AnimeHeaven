@@ -4,12 +4,16 @@
 @inject AnimeHeavenDbContext data
 @{
     var userId = this.User.GetId();
+    var user = this.data.Users.Where(f => f.Id == userId).FirstOrDefault();
     Seller seller = null;
     bool isFavouriteAlready = false;
+    bool isInShoppingCartAlready = false;
     if (userId != null)
     {
         seller = data.Sellers.Where(s => s.UserId == userId).FirstOrDefault();
         isFavouriteAlready = data.Favourites.Any(f => f.UserId == userId && f.ProductId == Model.Id);
+        var product = data.ShoppingCarts.Where(sc => sc.UserId == userId && sc.ProductId == Model.Id).FirstOrDefault();
+        isInShoppingCartAlready = product == null ? false : true;
     }
 }
 
@@ -36,10 +40,19 @@
                 <li class="list-group-item">@Model.SellerName</li>
             </ul>
             @if (userId != null && (seller == null && !User.IsAdmin() && !isFavouriteAlready))
+            {
                 @using (Html.BeginForm("AddToFavourites", "Profile", new { id = Model.Id }))
                 {
                     <button class="btn btn-primary mt-3">Add to Favourites &#11088;</button>
                 }
+            }
+            @if (userId != null && seller == null && !User.IsAdmin() && !isInShoppingCartAlready)
+            {
+                @using (Html.BeginForm("Add", "ShoppingCart", new { id = Model.Id }))
+                {
+                    <button class="btn btn-primary mt-3">Add to Shopping Cart &#128722;</button>
+                }
+            }
         </div>
     </div>
 </div>
