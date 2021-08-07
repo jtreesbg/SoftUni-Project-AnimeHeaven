@@ -4,8 +4,13 @@
 @inject AnimeHeavenDbContext data
 @{
     var userId = this.User.GetId();
-    var seller = data.Sellers.Where(s => s.UserId == userId).FirstOrDefault();
-    var isFavouriteAlready = data.Favourites.Any(f => f.UserId == userId && f.ProductId == Model.Id);
+    Seller seller = null;
+    bool isFavouriteAlready = false;
+    if (userId != null)
+    {
+        seller = data.Sellers.Where(s => s.UserId == userId).FirstOrDefault();
+        isFavouriteAlready = data.Favourites.Any(f => f.UserId == userId && f.ProductId == Model.Id);
+    }
 }
 
 <div class="container">
@@ -30,7 +35,7 @@
                 <li class="list-group-item font-weight-bold" style="background-color:lightgray">Seller: </li>
                 <li class="list-group-item">@Model.SellerName</li>
             </ul>
-            @if (seller == null && !User.IsAdmin() && !isFavouriteAlready)
+            @if (userId != null && (seller == null && !User.IsAdmin() && !isFavouriteAlready))
                 @using (Html.BeginForm("AddToFavourites", "Profile", new { id = Model.Id }))
                 {
                     <button class="btn btn-primary mt-3">Add to Favourites &#11088;</button>

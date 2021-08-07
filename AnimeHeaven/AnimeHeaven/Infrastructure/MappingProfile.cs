@@ -14,8 +14,8 @@
             this.CreateMap<ProductDetailsServiceModel, ProductFormModel>();
 
             this.CreateMap<Product, ProductDetailsServiceModel>()
-               .ForMember(p => p.UserId, cfg => cfg.MapFrom(p => p.Seller.Id))
-               .ForMember(p=>p.SellerName, cfg=> cfg.MapFrom(p=>p.Seller.Username));
+               .ForMember(p => p.UserId, cfg => cfg.MapFrom(p => p.Seller.UserId))
+               .ForMember(p => p.SellerName, cfg => cfg.MapFrom(p => p.Seller.Username));
         }
     }
 }
