@@ -1,8 +1,8 @@
-﻿using AnimeHeaven.Data.Models;
-using System.Collections.Generic;
-
-namespace AnimeHeaven.Services.Profile
+﻿namespace AnimeHeaven.Services.Profile
 {
+    using System.Collections.Generic;
+    using AnimeHeaven.Data.Models;
+
     public class ProfileInfoServiceModel
     {
         public string Id { get; set; }

@@ -1,6 +1,5 @@
 ﻿namespace AnimeHeaven.Data.Models
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static DataConstants.Products;

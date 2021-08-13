@@ -35,7 +35,6 @@
                 .ToList();
         }
 
-        //Move to favourite service
         public bool AddProductToUserFavourite(string userId, int productId)
         {
             var fav = new Favourite()
@@ -50,14 +49,20 @@
             return true;
         }
 
+        public void RemoveProductFromFavourites(string userId, int id)
+        {
+            var result = this.data.Favourites.Where(f => f.UserId == userId && f.ProductId == id).FirstOrDefault();
+
+            this.data.Favourites.Remove(result);
+            this.data.SaveChanges();
+        }
+
         public IEnumerable<Product> GetCustomerFavouriteProducts(string userId)
             => this.data
                 .Favourites
                 .Where(f => f.UserId == userId)
                 .Select(f => f.Product);
 
-
-        //Move to shopping cart service
         public bool AddProductToShoppingCart(string userId, int productId)
         {
             var fav = new ShoppingCart()
@@ -71,6 +76,33 @@
 
             return true;
         }
+
+        public bool RemoveProductFromShoppingCart(string userId, int productId)
+        {
+            var result = this.data.ShoppingCarts.Where(sc => sc.UserId == userId && sc.ProductId == productId).FirstOrDefault();
+
+            this.data.ShoppingCarts.Remove(result);
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+        public IEnumerable<Product> GetCustomerShoppingCartProducts(string userId)
+           => this.data
+               .ShoppingCarts
+               .Where(sc => sc.UserId == userId)
+               .Select(sc => sc.Product);
+
+        public bool EmptyShoppingCart(string userId)
+        {
+            var products = this.data.ShoppingCarts.Where(sc => sc.UserId == userId);
+            this.data.ShoppingCarts.RemoveRange(products);
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
 
         public ProductQueryServiceModel All(
             string category,
@@ -145,6 +177,5 @@
 
         public Customer GetCustomerDetails(string userId)
             => this.data.Customers.Where(c => c.Id == userId).FirstOrDefault();
-
     }
 }

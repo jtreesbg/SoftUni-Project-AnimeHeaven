@@ -11,10 +11,9 @@
                     <p class="card-text nameDescription">@product.CategoryName</p>
                     <p class="card-text priceTag">Price: @product.Price €</p>
                     <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary"> More Details </a>
-                    @if (ViewBag.AllowProductEdit == true || User.IsAdmin())
+                    @using (Html.BeginForm("RemoveFavourite", "Profile", new { id = product.Id }))
                     {
-                        <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">Edit</a>
-                        <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                        <button class="btn btn-outline-danger mt-3">Remove from Favourites &#11088;</button>
                     }
                 </div>
             </div>

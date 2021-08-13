@@ -15,7 +15,7 @@
         public class Products
         {
             public const int MinNameLength = 2;
-            public const int MaxNameLength = 27;
+            public const int MaxNameLength = 27; 
             public const int AnimeOriginMinLength = 0;
             public const int AnimeOriginMaxLength = 49;
             public const int DescriptionMinLength = 0;

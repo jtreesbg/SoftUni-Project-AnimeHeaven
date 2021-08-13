@@ -68,6 +68,15 @@
         }
 
         [Authorize]
+        public IActionResult RemoveFavourite(int id)
+        {
+            var userId = this.User.GetId();
+            this.profile.RemoveProductFromFavourites(userId, id);
+
+            return Redirect("/Profile/Favourites");
+        }
+
+        [Authorize]
         public IActionResult Favourites([FromQuery] ProductsSearchQueryModel query)
         {
             var userId = this.User.GetId();

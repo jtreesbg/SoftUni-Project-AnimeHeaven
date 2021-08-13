@@ -21,6 +21,8 @@
 
         public bool AddProductToUserFavourite(string userId, int productId);
 
+        public void RemoveProductFromFavourites(string userId, int id);
+
         public IEnumerable<Product> GetCustomerFavouriteProducts(string userId);
 
         public ProductQueryServiceModel All(
@@ -32,5 +34,10 @@
             string userId);
 
         public bool AddProductToShoppingCart(string userId, int productId);
+
+        public bool RemoveProductFromShoppingCart(string userId, int productId);
+        public bool EmptyShoppingCart(string userId);
+
+        public IEnumerable<Product> GetCustomerShoppingCartProducts(string userId);
     }
 }

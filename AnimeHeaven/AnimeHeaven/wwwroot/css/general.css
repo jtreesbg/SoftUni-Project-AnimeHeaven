@@ -1,18 +1,18 @@
- .container{
+.container {
     width: 80%;
     margin: 0 auto;
-  }
-
-div .available{
-  color:green
 }
 
-div .priceTag{
-  font-size:20px
+div .available {
+    color: green
 }
 
-div .nameDescription{
-  font-size:25px
+div .priceTag {
+    font-size: 20px
+}
+
+div .nameDescription {
+    font-size: 25px
 }
 
 .img-cart {
@@ -28,5 +28,5 @@ table tr th {
 }
 
 .panel-shadow {
-    box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

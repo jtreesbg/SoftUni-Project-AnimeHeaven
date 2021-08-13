@@ -28,6 +28,7 @@
                                     <p class="card-text nameDescription">@product.Name - @product.AnimeOrigin</p>
                                     <p class="card-text nameDescription">@product.CategoryName</p>
                                     <p class="card-text priceTag">Price: @product.Price €</p>
+                                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary"> More Details </a>
                                 </div>
                             </div>
                         }
