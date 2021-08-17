@@ -108,6 +108,30 @@
                          ProductsPerPage = 6
                      });
 
+                mock
+                    .Setup(ps => ps.AddProductToShoppingCart("TestId", 1))
+                    .Returns(true);
+
+                mock
+                    .Setup(ps => ps.AddProductToShoppingCart("fail", 0))
+                    .Returns(false);
+
+                mock
+                   .Setup(ps => ps.RemoveProductFromShoppingCart("TestId", 1))
+                   .Returns(true);
+
+                mock
+                    .Setup(ps => ps.RemoveProductFromShoppingCart("fail", 0))
+                    .Returns(false);
+
+                mock
+                   .Setup(ps => ps.EmptyShoppingCart("TestId"))
+                   .Returns(true);
+
+                mock
+                    .Setup(ps => ps.EmptyShoppingCart("fail"))
+                    .Returns(false);
+
                 return mock.Object;
             }
         }
