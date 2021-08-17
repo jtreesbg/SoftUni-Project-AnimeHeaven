@@ -1,11 +1,14 @@
 ﻿namespace AnimeHeaven.Controllers
 {
+    using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models.Sellers;
     using AnimeHeaven.Infrastructure;
     using AnimeHeaven.Services.Sellers;
+
+    using static WebConstants;
 
     public class SellersController : Controller
     {
@@ -28,7 +31,8 @@
 
             var userId = this.User.GetId();
 
-            var customer = this.sellers.GetCustomer(userId);
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
 
             var userIdAlreadySeller = this.sellers.IsSeller(userId);
 
@@ -47,11 +51,13 @@
                 UserId = userId,
                 PhoneNumber = seller.PhoneNumber,
                 Address = seller.Address,
-                Email = customer.Email,
-                Username = customer.UserName
+                Email = userEmail,
+                Username = userName
             };
 
             this.sellers.SaveSellerInDb(sellerData);
+
+            TempData[GlobalMessageKey] = "You have become a seller!";
 
             return RedirectToAction(nameof(ProductsController.All), "Products");
         }

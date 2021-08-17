@@ -1,27 +1,44 @@
-﻿namespace WebApplication1.Controllers
+﻿namespace AnimeHeaven.Controllers
 {
-    using System.Diagnostics;
-    using Microsoft.AspNetCore.Mvc;
-    using AnimeHeaven.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using AnimeHeaven.Services.Products;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+
+    using static WebConstants.Cache;
 
     public class HomeController : Controller
     {
         private readonly IProductService products;
+        private readonly IMemoryCache cache;
 
-        public HomeController(IProductService products)
+        public HomeController(
+            IProductService products,
+            IMemoryCache cache)
         {
             this.products = products;
+            this.cache = cache;
         }
 
         public IActionResult Index()
         {
-            var recent = this.products.GetRecentProducts();
+            var mostRecentProducts = this.cache.Get<List<ProductServiceModel>>(MostRecenetProductsCacheKey);
 
-            return View(recent);
+            if (mostRecentProducts == null)
+            {
+                mostRecentProducts = this.products.GetRecentProducts().ToList();
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+
+                this.cache.Set(MostRecenetProductsCacheKey, mostRecentProducts, cacheOptions);
+            }
+
+            return View(mostRecentProducts);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Error() => View();
     }
 }

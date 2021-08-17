@@ -73,7 +73,7 @@
             var userId = this.User.GetId();
             this.profile.RemoveProductFromFavourites(userId, id);
 
-            return Redirect("/Profile/Favourites");
+            return RedirectToAction(nameof(ProfileController.Favourites), "Profile");
         }
 
         [Authorize]

@@ -4,7 +4,7 @@
 
     public class AllProductsApiRequestModel
     {
-        public int ProductsPerPage { get; init; } = 6;
+        public int ProductsPerPage { get; init; } = 8;
 
         public int TotalProducts { get; init; }
 

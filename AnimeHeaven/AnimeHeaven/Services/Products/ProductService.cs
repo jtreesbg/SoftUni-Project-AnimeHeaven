@@ -139,6 +139,16 @@
             return true;
         }
 
+        public bool Delete(int id)
+        {
+            var product = this.data.Products.Where(p => p.Id == id).FirstOrDefault();
+
+            this.data.Products.Remove(product);
+            this.data.SaveChanges();
+
+            return true;
+        }
+
         public bool IsBySeller(int productId, int sellerId)
             => this.data
                 .Products

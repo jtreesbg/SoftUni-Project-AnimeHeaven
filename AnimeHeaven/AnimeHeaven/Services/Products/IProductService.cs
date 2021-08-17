@@ -26,6 +26,7 @@
                int categoryId,
                int sellerId);
 
+        bool Delete(int id);
 
         ProductQueryServiceModel All(
             string category,

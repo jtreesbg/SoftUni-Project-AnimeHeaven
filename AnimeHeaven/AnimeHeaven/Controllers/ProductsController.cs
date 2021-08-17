@@ -15,7 +15,6 @@
         private readonly ISellerService sellers;
         private readonly IMapper mapper;
 
-
         public ProductsController(IProductService products, ISellerService sellers, IMapper mapper)
         {
             this.products = products;
@@ -26,12 +25,14 @@
         [Authorize]
         public IActionResult My()
         {
-            var myProducts = this.products.ByUser(this.User.GetId());
+            var userId = this.User.GetId();
+            var myProducts = this.products.ByUser(userId);
 
             return View(myProducts);
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Add()
         {
             if (User.IsAdmin())
@@ -63,7 +64,7 @@
 
             if (sellerId == 0)
             {
-                return RedirectToAction(nameof(SellersController.Become), "Seller");
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
 
             if (!this.products.CategoryExists(product.CategoryId))
@@ -124,7 +125,7 @@
 
             if (!this.sellers.IsSeller(userId) && !User.IsAdmin())
             {
-                return RedirectToAction(nameof(SellersController.Become), "Dealers");
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
 
             var product = this.products.Details(id);
@@ -149,7 +150,7 @@
 
             if (sellerId == 0 && !User.IsAdmin())
             {
-                return RedirectToAction(nameof(SellersController.Become), "Seller");
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
 
             if (!this.products.CategoryExists(product.CategoryId))
@@ -188,7 +189,15 @@
             }
 
             return RedirectToAction(nameof(All));
-        }     
+        }
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            this.products.Delete(id);
+
+            return RedirectToAction(nameof(My));
+        }
     }
 
 }

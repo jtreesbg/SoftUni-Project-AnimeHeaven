@@ -21,7 +21,7 @@
 
         public bool AddProductToUserFavourite(string userId, int productId);
 
-        public void RemoveProductFromFavourites(string userId, int id);
+        public bool RemoveProductFromFavourites(string userId, int id);
 
         public IEnumerable<Product> GetCustomerFavouriteProducts(string userId);
 

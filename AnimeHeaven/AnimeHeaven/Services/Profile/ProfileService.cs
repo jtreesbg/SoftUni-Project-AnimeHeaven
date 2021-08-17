@@ -49,12 +49,14 @@
             return true;
         }
 
-        public void RemoveProductFromFavourites(string userId, int id)
+        public bool RemoveProductFromFavourites(string userId, int id)
         {
             var result = this.data.Favourites.Where(f => f.UserId == userId && f.ProductId == id).FirstOrDefault();
 
             this.data.Favourites.Remove(result);
             this.data.SaveChanges();
+
+            return true;
         }
 
         public IEnumerable<Product> GetCustomerFavouriteProducts(string userId)
