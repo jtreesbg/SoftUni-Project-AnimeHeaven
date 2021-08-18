@@ -1,18 +1,16 @@
 ﻿namespace AnimeHeaven.Test.Controllers
 {
-    using System;
-    using System.Collections.Generic;
+    using MyTested.AspNetCore.Mvc;
+    using Shouldly;
+    using Xunit;
     using AnimeHeaven.Controllers;
-    using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models;
     using AnimeHeaven.Models.Products;
     using AnimeHeaven.Services.Products;
     using AnimeHeaven.Services.Profile;
-    using MyTested.AspNetCore.Mvc;
-    using Shouldly;
-    using Xunit;
 
     using static Data.Data;
+
     public class ProfileControllerTest
     {
         [Fact]

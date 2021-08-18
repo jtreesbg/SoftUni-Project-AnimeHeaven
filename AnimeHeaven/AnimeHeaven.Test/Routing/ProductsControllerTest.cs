@@ -1,9 +1,9 @@
 ﻿namespace AnimeHeaven.Test.Routing
 {
-    using AnimeHeaven.Controllers;
-    using AnimeHeaven.Models.Products;
     using MyTested.AspNetCore.Mvc;
     using Xunit;
+    using AnimeHeaven.Controllers;
+    using AnimeHeaven.Models.Products;
 
     public class ProductsControllerTest
     {

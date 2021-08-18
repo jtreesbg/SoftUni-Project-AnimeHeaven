@@ -1,8 +1,8 @@
 ﻿namespace AnimeHeaven.Test.Routing
 {
-    using AnimeHeaven.Controllers;
     using MyTested.AspNetCore.Mvc;
     using Xunit;
+    using AnimeHeaven.Controllers;
     public class ShoppingCartControllerTest
     {
         private const int id = 3;

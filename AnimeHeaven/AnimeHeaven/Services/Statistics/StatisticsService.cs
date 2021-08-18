@@ -1,7 +1,7 @@
 ﻿namespace AnimeHeaven.Services.Statistics
 {
-    using AnimeHeaven.Data;
     using System.Linq;
+    using AnimeHeaven.Data;
 
     public class StatisticsService : IStatisticsService
     {

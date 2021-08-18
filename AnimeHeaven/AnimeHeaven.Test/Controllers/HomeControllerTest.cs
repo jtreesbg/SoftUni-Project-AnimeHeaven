@@ -1,11 +1,11 @@
 ﻿namespace AnimeHeaven.Test.Controllers
 {
-    using AnimeHeaven.Controllers;
-    using AnimeHeaven.Services.Products;
     using MyTested.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using Xunit;
+    using AnimeHeaven.Controllers;
+    using AnimeHeaven.Services.Products;
 
     using static Data.Products;
     using static WebConstants.Cache;

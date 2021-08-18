@@ -1,9 +1,9 @@
 ﻿namespace AnimeHeaven.Test.Mocks
 {
     using System.Collections.Generic;
-    using AnimeHeaven.Services.Products;
     using Moq;
     using MyTested.AspNetCore.Mvc;
+    using AnimeHeaven.Services.Products;
 
     public class ProductServiceMock
     {

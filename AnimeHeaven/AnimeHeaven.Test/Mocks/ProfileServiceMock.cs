@@ -1,11 +1,11 @@
 ﻿namespace AnimeHeaven.Test.Mocks
 {
-    using AnimeHeaven.Data.Models;
-    using AnimeHeaven.Services.Products;
-    using AnimeHeaven.Services.Profile;
     using Moq;
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
+    using AnimeHeaven.Data.Models;
+    using AnimeHeaven.Services.Products;
+    using AnimeHeaven.Services.Profile;
 
     public class ProfileServiceMock
     {

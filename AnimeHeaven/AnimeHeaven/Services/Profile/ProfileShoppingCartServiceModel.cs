@@ -1,7 +1,7 @@
 ﻿namespace AnimeHeaven.Services.Profile
 {
-    using AnimeHeaven.Data.Models;
     using System.Collections.Generic;
+    using AnimeHeaven.Data.Models;
     public class ProfileShoppingCartServiceModel
     {
         public string Id { get; set; }

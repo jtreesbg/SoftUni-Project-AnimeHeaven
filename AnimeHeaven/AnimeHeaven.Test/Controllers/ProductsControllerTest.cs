@@ -1,14 +1,14 @@
 ﻿namespace AnimeHeaven.Test.Controllers
 {
+    using MyTested.AspNetCore.Mvc;
+    using Shouldly;
+    using System.Linq;
+    using Xunit;
     using AnimeHeaven.Controllers;
     using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models;
     using AnimeHeaven.Models.Products;
     using AnimeHeaven.Services.Products;
-    using MyTested.AspNetCore.Mvc;
-    using Shouldly;
-    using System.Linq;
-    using Xunit;
 
     using static Data.Data;
     public class ProductsControllerTest

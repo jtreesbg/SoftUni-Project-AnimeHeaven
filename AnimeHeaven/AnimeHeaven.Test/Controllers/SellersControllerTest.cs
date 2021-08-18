@@ -1,13 +1,13 @@
 ﻿namespace AnimeHeaven.Test.Controllers
 {
-    using AnimeHeaven.Controllers;
-    using AnimeHeaven.Data.Models;
-    using AnimeHeaven.Models.Products;
-    using AnimeHeaven.Models.Sellers;
     using Microsoft.AspNetCore.Mvc;
     using MyTested.AspNetCore.Mvc;
     using Shouldly;
     using Xunit;
+    using AnimeHeaven.Controllers;
+    using AnimeHeaven.Data.Models;
+    using AnimeHeaven.Models.Products;
+    using AnimeHeaven.Models.Sellers;
 
     using static WebConstants;
     using static Data.Data;

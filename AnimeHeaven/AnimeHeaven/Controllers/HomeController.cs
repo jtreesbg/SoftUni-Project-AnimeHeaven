@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AnimeHeaven.Services.Products;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
+    using AnimeHeaven.Services.Products;
 
     using static WebConstants.Cache;
 

@@ -2,12 +2,12 @@
 {
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
-    using AnimeHeaven.Models.Products;
     using Microsoft.AspNetCore.Authorization;
+    using AutoMapper;
+    using AnimeHeaven.Models.Products;
     using AnimeHeaven.Infrastructure;
     using AnimeHeaven.Services.Products;
     using AnimeHeaven.Services.Sellers;
-    using AutoMapper;
 
     public class ProductsController : Controller
     {

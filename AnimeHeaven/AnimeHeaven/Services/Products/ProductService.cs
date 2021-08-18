@@ -2,12 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using AnimeHeaven.Data;
     using AnimeHeaven.Data.Models;
     using AnimeHeaven.Models;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-
+    
     public class ProductService : IProductService
     {
         private readonly AnimeHeavenDbContext data;

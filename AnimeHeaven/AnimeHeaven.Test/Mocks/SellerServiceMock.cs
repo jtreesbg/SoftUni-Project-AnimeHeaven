@@ -1,8 +1,8 @@
 ﻿namespace AnimeHeaven.Test.Mocks
 {
-    using AnimeHeaven.Services.Sellers;
     using Moq;
     using MyTested.AspNetCore.Mvc;
+    using AnimeHeaven.Services.Sellers;
 
     using static Data.Data;
     public class SellerServiceMock

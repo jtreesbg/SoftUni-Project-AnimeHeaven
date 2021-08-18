@@ -1,8 +1,8 @@
 ﻿namespace AnimeHeaven.Services.Sellers
 {
+    using System.Linq;
     using AnimeHeaven.Data;
     using AnimeHeaven.Data.Models;
-    using System.Linq;
 
     public class SellerService : ISellerService
     {
